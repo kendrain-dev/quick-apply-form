@@ -1,0 +1,33 @@
+{
+  "functions": {
+    "api/submit.js": {
+      "maxDuration": 10
+    }
+  },
+  "firewall": {
+    "rules": [
+      {
+        "id": "rate-limit-form",
+        "description": "3 submits per IP per 5 mins",
+        "conditionGroup": [
+          {
+            "conditions": [
+              {
+                "type": "path",
+                "op": "eq",
+                "value": "/api/submit"
+              }
+            ]
+          }
+        ],
+        "action": "rate_limit",
+        "actionParameters": {
+          "rateLimit": {
+            "requests": 3,
+            "window": "5m"
+          }
+        }
+      }
+    ]
+  }
+}
