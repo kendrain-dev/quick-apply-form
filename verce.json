@@ -1,9 +1,4 @@
 {
-  "functions": {
-    "api/submit.js": {
-      "maxDuration": 10
-    }
-  },
   "firewall": {
     "rules": [
       {
@@ -15,7 +10,7 @@
               {
                 "type": "path",
                 "op": "eq",
-                "value": "/api/submit"
+                "value": "/formsubmit"
               }
             ]
           }
